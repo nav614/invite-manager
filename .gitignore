@@ -73,3 +73,7 @@ app.config.js.timestamp_*
 app.config.ts.timestamp_*
 .idea
 *.vitest-temp.json
+
+.cache
+.vercel
+.vinxi
