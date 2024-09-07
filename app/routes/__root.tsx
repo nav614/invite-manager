@@ -14,6 +14,9 @@ import { DefaultCatchBoundary } from "../components/DefaultCatchBoundary";
 import { NotFound } from "../components/NotFound";
 import "../styles/app.css";
 import NavigationMenu from "~/components/NavigationMenu";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const fetchUser = createServerFn("GET", async () => {
   const session = await useAppSession();
@@ -75,8 +78,10 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </Head>
       <Body>
-        <NavigationMenu user={user} />
-        {children}
+        <QueryClientProvider client={queryClient}>
+          <NavigationMenu user={user} />
+          {children}
+        </QueryClientProvider>
         <ScrollRestoration />
         <Scripts />
       </Body>

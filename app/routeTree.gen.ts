@@ -128,7 +128,7 @@ const AuthorizedRouteWithChildren = AuthorizedRoute._addFileChildren(
   AuthorizedRouteChildren,
 )
 
-interface FileRoutesByFullPath {
+export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '': typeof AuthorizedRouteWithChildren
   '/login': typeof LoginRoute
@@ -138,7 +138,7 @@ interface FileRoutesByFullPath {
   '/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
-interface FileRoutesByTo {
+export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '': typeof AuthorizedRouteWithChildren
   '/login': typeof LoginRoute
@@ -148,7 +148,8 @@ interface FileRoutesByTo {
   '/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
-interface FileRoutesById {
+export interface FileRoutesById {
+  __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/_authorized': typeof AuthorizedRouteWithChildren
   '/login': typeof LoginRoute
@@ -158,7 +159,7 @@ interface FileRoutesById {
   '/_authorized/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
-interface FileRouteTypes {
+export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
@@ -178,6 +179,7 @@ interface FileRouteTypes {
     | '/invites-given'
     | '/invites-received'
   id:
+    | '__root__'
     | '/'
     | '/_authorized'
     | '/login'
@@ -188,7 +190,7 @@ interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 
-interface RootRouteChildren {
+export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthorizedRoute: typeof AuthorizedRouteWithChildren
   LoginRoute: typeof LoginRoute

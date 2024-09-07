@@ -9,6 +9,7 @@ import {
 } from "react-aria-components";
 import { createFileRoute } from "@tanstack/react-router";
 import { Invite } from "~/kysely/kysely.types";
+import UsersCombobox from "~/components/UsersCombobox";
 
 export const Route = createFileRoute("/_authorized/invites-given")({
   component: InvitesGivenComponent,
@@ -19,6 +20,7 @@ function InvitesGivenComponent() {
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg">
+      <UsersCombobox />
       <Table aria-label="Invites Given" className="w-full">
         <TableHeader>
           <Column className="font-bold text-gray-700" isRowHeader>

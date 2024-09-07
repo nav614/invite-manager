@@ -15,6 +15,10 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
     select: (state) => state.id === rootRouteId,
   });
 
+  const handleGoBack = () => {
+    router.history.back();
+  };
+
   console.error(error);
 
   return (
@@ -39,10 +43,7 @@ export function DefaultCatchBoundary({ error }: ErrorComponentProps) {
           <Link
             to="/"
             className={`px-2 py-1 bg-gray-600 dark:bg-gray-700 rounded text-white uppercase font-extrabold`}
-            onClick={(e) => {
-              e.preventDefault();
-              window.history.back();
-            }}>
+            onClick={handleGoBack}>
             Go Back
           </Link>
         )}

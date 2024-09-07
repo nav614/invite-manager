@@ -1,6 +1,6 @@
 # Invite Manager
 
-This is a UI application for managing invites and permissions between users. The app is built using **React 19**, **TypeScript**, **TanStack Router**, **TanStack Query**, **React Hook Form**, **Zod**, **React Aria Components**, **Tailwind CSS**, and **PostgreSQL** with **Kysely** for database interaction.
+This is an application for managing invites and permissions between users. The app is built using **React 19**, **TypeScript**, **TanStack Start**, **TanStack Query**, **React Hook Form**, **Zod**, **React Aria Components**, **Tailwind CSS**, and **PostgreSQL** with **Kysely** for database interaction.
 
 ## Features
 
@@ -44,7 +44,7 @@ DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
 
 ### 4. Set Up the Database
 
-A SQL script is provided to set up the necessary tables for users and invites. Run the SQL script (`db_script.sql`) in your PostgreSQL database:
+A SQL script is provided to set up the necessary tables for users and invites. Run the SQL script `db_script.sql` in your PostgreSQL database:
 
 The SQL script is located in the root of the repository.
 
@@ -89,4 +89,4 @@ The database uses PostgreSQL, and you will need to configure it using the provid
 
 - **Ensure** your PostgreSQL instance is running and configured correctly.
 - **Modify** the `DATABASE_URL` in your `.env` file to connect to your database.
-- **Run** the provided SQL script (`db_script.sql`) to set up the database tables.
+- **Run** the provided SQL script `db_script.sql` to set up the database tables.
