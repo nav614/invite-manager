@@ -39,7 +39,6 @@ export const Route = createRootRoute({
       title: "Invite Manager",
     },
   ],
-  // links: () => [{ rel: "stylesheet", href: appCss }],
   beforeLoad: async () => {
     const user = await fetchUser();
 

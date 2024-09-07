@@ -27,14 +27,7 @@ export function Login() {
     <Auth
       actionText="Login"
       status={loginMutation.status}
-      onSubmit={(e) => {
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        loginMutation.mutate({
-          email: formData.get("email") as string,
-          password: formData.get("password") as string,
-        });
-      }}
+      onSubmit={loginMutation.mutate}
       afterSubmit={
         loginMutation.data ? (
           <>

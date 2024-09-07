@@ -8,14 +8,12 @@ import { db } from "../kysely/db";
 export const loginFn = createServerFn(
   "POST",
   async (payload: { email: string; password: string }) => {
-    // Find the user
     const user = await db
       .selectFrom("users")
       .selectAll()
       .where("email", "=", payload.email)
       .executeTakeFirst();
 
-    // Check if the user exists
     if (!user) {
       return {
         error: true,
@@ -24,7 +22,6 @@ export const loginFn = createServerFn(
       };
     }
 
-    // Check if the password is correct
     const hashedPassword = await hashPassword(payload.password);
 
     if (user.password !== hashedPassword) {
@@ -34,10 +31,8 @@ export const loginFn = createServerFn(
       };
     }
 
-    // Create a session
     const session = await useAppSession();
 
-    // Store the user's email in the session
     await session.update({
       userEmail: user.email,
     });

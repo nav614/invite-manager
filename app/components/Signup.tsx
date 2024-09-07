@@ -35,18 +35,15 @@ export const signupFn = createServerFn(
         };
       }
 
-      // Store the user's email in the session
       await session.update({
         userEmail: found.email,
       });
 
-      // Redirect to the prev page stored in the "redirect" search param
       throw redirect({
         href: payload.redirectUrl || "/",
       });
     }
 
-    // Create the user
     const user = await db
       .insertInto("users")
       .values({
@@ -63,12 +60,10 @@ export const signupFn = createServerFn(
       };
     }
 
-    // Store the user's email in the session
     await session.update({
       userEmail: user.email,
     });
 
-    // Redirect to the prev page stored in the "redirect" search param
     throw redirect({
       href: payload.redirectUrl || "/",
     });
@@ -84,14 +79,7 @@ export function Signup() {
     <Auth
       actionText="Sign Up"
       status={signupMutation.status}
-      onSubmit={(e) => {
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        signupMutation.mutate({
-          email: formData.get("email") as string,
-          password: formData.get("password") as string,
-        });
-      }}
+      onSubmit={signupMutation.mutate}
       afterSubmit={
         signupMutation.data?.error ? (
           <>
