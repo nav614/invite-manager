@@ -16,7 +16,8 @@ import { Route as LogoutImport } from './routes/logout'
 import { Route as LoginImport } from './routes/login'
 import { Route as AuthorizedImport } from './routes/_authorized'
 import { Route as IndexImport } from './routes/index'
-import { Route as AuthorizedDashboardImport } from './routes/_authorized/dashboard'
+import { Route as AuthorizedInvitesReceivedImport } from './routes/_authorized/invites-received'
+import { Route as AuthorizedInvitesGivenImport } from './routes/_authorized/invites-given'
 
 // Create/Update Routes
 
@@ -45,8 +46,13 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const AuthorizedDashboardRoute = AuthorizedDashboardImport.update({
-  path: '/dashboard',
+const AuthorizedInvitesReceivedRoute = AuthorizedInvitesReceivedImport.update({
+  path: '/invites-received',
+  getParentRoute: () => AuthorizedRoute,
+} as any)
+
+const AuthorizedInvitesGivenRoute = AuthorizedInvitesGivenImport.update({
+  path: '/invites-given',
   getParentRoute: () => AuthorizedRoute,
 } as any)
 
@@ -89,11 +95,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SignupImport
       parentRoute: typeof rootRoute
     }
-    '/_authorized/dashboard': {
-      id: '/_authorized/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof AuthorizedDashboardImport
+    '/_authorized/invites-given': {
+      id: '/_authorized/invites-given'
+      path: '/invites-given'
+      fullPath: '/invites-given'
+      preLoaderRoute: typeof AuthorizedInvitesGivenImport
+      parentRoute: typeof AuthorizedImport
+    }
+    '/_authorized/invites-received': {
+      id: '/_authorized/invites-received'
+      path: '/invites-received'
+      fullPath: '/invites-received'
+      preLoaderRoute: typeof AuthorizedInvitesReceivedImport
       parentRoute: typeof AuthorizedImport
     }
   }
@@ -102,11 +115,13 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthorizedRouteChildren {
-  AuthorizedDashboardRoute: typeof AuthorizedDashboardRoute
+  AuthorizedInvitesGivenRoute: typeof AuthorizedInvitesGivenRoute
+  AuthorizedInvitesReceivedRoute: typeof AuthorizedInvitesReceivedRoute
 }
 
 const AuthorizedRouteChildren: AuthorizedRouteChildren = {
-  AuthorizedDashboardRoute: AuthorizedDashboardRoute,
+  AuthorizedInvitesGivenRoute: AuthorizedInvitesGivenRoute,
+  AuthorizedInvitesReceivedRoute: AuthorizedInvitesReceivedRoute,
 }
 
 const AuthorizedRouteWithChildren = AuthorizedRoute._addFileChildren(
@@ -119,7 +134,8 @@ interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
-  '/dashboard': typeof AuthorizedDashboardRoute
+  '/invites-given': typeof AuthorizedInvitesGivenRoute
+  '/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
 interface FileRoutesByTo {
@@ -128,7 +144,8 @@ interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
-  '/dashboard': typeof AuthorizedDashboardRoute
+  '/invites-given': typeof AuthorizedInvitesGivenRoute
+  '/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
 interface FileRoutesById {
@@ -137,21 +154,37 @@ interface FileRoutesById {
   '/login': typeof LoginRoute
   '/logout': typeof LogoutRoute
   '/signup': typeof SignupRoute
-  '/_authorized/dashboard': typeof AuthorizedDashboardRoute
+  '/_authorized/invites-given': typeof AuthorizedInvitesGivenRoute
+  '/_authorized/invites-received': typeof AuthorizedInvitesReceivedRoute
 }
 
 interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '' | '/login' | '/logout' | '/signup' | '/dashboard'
+  fullPaths:
+    | '/'
+    | ''
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/invites-given'
+    | '/invites-received'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '' | '/login' | '/logout' | '/signup' | '/dashboard'
+  to:
+    | '/'
+    | ''
+    | '/login'
+    | '/logout'
+    | '/signup'
+    | '/invites-given'
+    | '/invites-received'
   id:
     | '/'
     | '/_authorized'
     | '/login'
     | '/logout'
     | '/signup'
-    | '/_authorized/dashboard'
+    | '/_authorized/invites-given'
+    | '/_authorized/invites-received'
   fileRoutesById: FileRoutesById
 }
 
@@ -196,7 +229,8 @@ export const routeTree = rootRoute
     "/_authorized": {
       "filePath": "_authorized.tsx",
       "children": [
-        "/_authorized/dashboard"
+        "/_authorized/invites-given",
+        "/_authorized/invites-received"
       ]
     },
     "/login": {
@@ -208,8 +242,12 @@ export const routeTree = rootRoute
     "/signup": {
       "filePath": "signup.tsx"
     },
-    "/_authorized/dashboard": {
-      "filePath": "_authorized/dashboard.tsx",
+    "/_authorized/invites-given": {
+      "filePath": "_authorized/invites-given.tsx",
+      "parent": "/_authorized"
+    },
+    "/_authorized/invites-received": {
+      "filePath": "_authorized/invites-received.tsx",
       "parent": "/_authorized"
     }
   }

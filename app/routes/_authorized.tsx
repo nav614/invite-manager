@@ -1,8 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import { hashPassword } from "../utils/hash";
 import { useAppSession } from "../utils/session";
-import { Login } from "../components/Login";
 import { db } from "../kysely/db";
 
 export const loginFn = createServerFn(
@@ -42,14 +41,7 @@ export const loginFn = createServerFn(
 export const Route = createFileRoute("/_authorized")({
   beforeLoad: ({ context }) => {
     if (!context.user) {
-      throw new Error("Not authenticated");
+      redirect({ to: "/login", throw: true });
     }
-  },
-  errorComponent: ({ error }) => {
-    if (error.message === "Not authenticated") {
-      return <Login />;
-    }
-
-    throw error;
   },
 });
