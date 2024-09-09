@@ -8,6 +8,12 @@ type Permission =
   | "read_profile"
   | "write_profile";
 
+export interface UserUI {
+  id: number;
+  email: string;
+  is_verified: boolean;
+}
+
 interface UserTable {
   id: Generated<number>;
   email: string;

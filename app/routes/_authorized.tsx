@@ -33,6 +33,7 @@ export const loginFn = createServerFn(
     const session = await useAppSession();
 
     await session.update({
+      userId: user.id,
       userEmail: user.email,
     });
   }

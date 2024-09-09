@@ -37,7 +37,7 @@ export function ComboBox<T extends object>({
       )}>
       <Label>{label}</Label>
       <FieldGroup>
-        <Input />
+        <Input type="text" />
         <Button
           aria-label="down-button"
           variant="icon"

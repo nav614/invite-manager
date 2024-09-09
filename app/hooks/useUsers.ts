@@ -10,7 +10,10 @@ const getAllUsers = createServerFn("GET", async () => {
     return null;
   }
 
-  const users = await db.selectFrom("users").selectAll().execute();
+  const users = await db
+    .selectFrom("users")
+    .select(["id", "email", "is_verified"])
+    .execute();
 
   return users;
 });
