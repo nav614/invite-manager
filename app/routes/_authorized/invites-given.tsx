@@ -12,6 +12,7 @@ import { UserUI } from "~/kysely/kysely.types";
 import UsersCombobox from "~/components/UsersCombobox";
 import { useUsers } from "~/hooks/useUsers";
 import { useState } from "react";
+import { Permissions } from "~/components/Permissions";
 
 export const Route = createFileRoute("/_authorized/invites-given")({
   component: InvitesGivenComponent,
@@ -40,6 +41,18 @@ function InvitesGivenComponent() {
     console.log("invitesGiven", invitesGiven);
   };
 
+  const handleNewInvitePermissionsChanged = (permissions: string[]) => {
+    if (!newInviteUser) {
+      return;
+    }
+    console.log("newInviteUser", newInviteUser);
+    console.log("permissions", permissions);
+  };
+
+  const handleDeveleNewInvite = () => {
+    setNewInviteUser(undefined);
+  };
+
   return (
     <div className="p-4 bg-white shadow-md rounded-lg">
       <UsersCombobox
@@ -49,28 +62,42 @@ function InvitesGivenComponent() {
       />
       <Table aria-label="Invites Given" className="w-full">
         <TableHeader>
-          <Column className="font-bold text-gray-700" isRowHeader>
+          <Column className="font-bold text-gray-700 text-left" isRowHeader>
             Invitee
           </Column>
-          <Column className="font-bold text-gray-700">Permissions</Column>
-          <Column className="font-bold text-gray-700">Date</Column>
-          <Column className="font-bold text-gray-700">Status</Column>
+          <Column className="font-bold text-gray-700 text-left">
+            Permissions
+          </Column>
+          <Column className="font-bold text-gray-700 text-left">Date</Column>
+          <Column className="font-bold text-gray-700 text-left">Status</Column>
           <Column className="font-bold text-gray-700">Actions</Column>
         </TableHeader>
         <TableBody>
           {newInviteUser && (
             <Row key="-1">
-              <Cell className="p-2 text-gray-900">{newInviteUser.email}</Cell>
+              <Cell className="p-2 text-gray-900 ">{newInviteUser.email}</Cell>
+              <Cell className="p-2 text-gray-600 ">
+                <Permissions
+                  onPermissionsChange={handleNewInvitePermissionsChanged}
+                />
+              </Cell>
               <Cell className="p-2 text-gray-600" />
               <Cell className="p-2 text-gray-600" />
-              <Cell className="p-2 text-gray-600" />
-              <Cell className="p-2 flex justify-center">
-                <Button
-                  aria-label={`Delete invite to ${newInviteUser.email}`}
-                  onPress={() => {}}
-                  className=" text-red-600 hover:text-red-800">
-                  Delete
-                </Button>
+              <Cell className="p-2 ">
+                <div className="flex justify-center items-center gap-4 ">
+                  <Button
+                    aria-label={`Delete invite to ${newInviteUser.email}`}
+                    onPress={handleDeveleNewInvite}
+                    className="text-red-600 hover:text-red-800">
+                    Delete
+                  </Button>
+                  <Button
+                    aria-label={`Save invite to ${newInviteUser.email}`}
+                    onPress={() => {}}
+                    className="text-gray-600 hover:text-gray-800">
+                    Save
+                  </Button>
+                </div>
               </Cell>
             </Row>
           )}
