@@ -1,6 +1,6 @@
 import * as React from "react";
 
-export function useMutation<TVariables, TData, TError = Error>(opts: {
+export function useMutation2<TVariables, TData, TError = Error>(opts: {
   fn: (variables: TVariables) => Promise<TData>;
   onSuccess?: (ctx: { data: TData }) => void | Promise<void>;
 }) {

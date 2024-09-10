@@ -1,7 +1,7 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useMutation } from "~/hooks/useMutation";
 import { loginFn } from "./_authorized";
 import { Auth } from "~/components/Auth";
+import { useMutation } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/login")({
   component: LoginComponent,
@@ -11,9 +11,9 @@ function LoginComponent() {
   const router = useRouter();
 
   const loginMutation = useMutation({
-    fn: loginFn,
+    mutationFn: loginFn,
     onSuccess: async (ctx) => {
-      if (!ctx.data?.error) {
+      if (!ctx?.error) {
         await router.invalidate();
         router.navigate({ to: "/" });
         return;
@@ -25,7 +25,7 @@ function LoginComponent() {
     <Auth
       actionText="Login"
       status={loginMutation.status}
-      onSubmit={loginMutation.mutate}
+      onSubmit={(data) => loginMutation.mutate(data)}
       afterSubmitText={loginMutation.data?.message}
     />
   );

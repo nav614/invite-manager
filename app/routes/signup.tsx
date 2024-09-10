@@ -1,10 +1,10 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 import { Auth } from "~/components/Auth";
-import { useMutation } from "~/hooks/useMutation";
 import { createServerFn, useServerFn } from "@tanstack/start";
 import { hashPassword } from "~/utils/hash";
 import { useAppSession } from "~/utils/session";
 import { db } from "~/kysely/db";
+import { useMutation } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/signup")({
   component: SignupComponent,
@@ -74,7 +74,7 @@ export const signupFn = createServerFn(
 
 function SignupComponent() {
   const signupMutation = useMutation({
-    fn: useServerFn(signupFn),
+    mutationFn: useServerFn(signupFn),
   });
 
   const message = signupMutation.data?.error ? signupMutation.data.message : "";
@@ -83,7 +83,7 @@ function SignupComponent() {
     <Auth
       actionText="Sign Up"
       status={signupMutation.status}
-      onSubmit={signupMutation.mutate}
+      onSubmit={(data) => signupMutation.mutate(data)}
       afterSubmitText={message}
     />
   );

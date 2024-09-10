@@ -11,7 +11,7 @@ CREATE TABLE invites (
     invitee_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     is_accepted BOOLEAN DEFAULT FALSE,
     is_pending BOOLEAN DEFAULT TRUE,
-    permissions JSONB NOT NULL, 
+    permissions TEXT[] NOT NULL, 
     expiration_date TIMESTAMP,  
     invite_date TIMESTAMP DEFAULT NOW(),
     accepted_at TIMESTAMP

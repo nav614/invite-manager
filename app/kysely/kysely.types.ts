@@ -1,6 +1,6 @@
 import { ColumnType, Generated, Insertable, Selectable } from "kysely";
 
-type Permission =
+export type Permission =
   | "read_posts"
   | "write_posts"
   | "read_messages"

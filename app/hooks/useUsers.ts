@@ -2,12 +2,13 @@ import { createServerFn, useServerFn } from "@tanstack/start";
 import { db } from "~/kysely/db";
 import { useAppSession } from "~/utils/session";
 import { useQuery } from "@tanstack/react-query";
+import { UserUI } from "~/kysely/kysely.types";
 
 const getAllUsers = createServerFn("GET", async () => {
   const session = await useAppSession();
 
   if (!session.data.userEmail) {
-    return null;
+    return [];
   }
 
   const users = await db
@@ -15,7 +16,7 @@ const getAllUsers = createServerFn("GET", async () => {
     .select(["id", "email", "is_verified"])
     .execute();
 
-  return users;
+  return users as UserUI[];
 });
 
 export const useUsers = () => {
@@ -24,5 +25,6 @@ export const useUsers = () => {
   return useQuery({
     queryKey: ["users"],
     queryFn: () => getUsers(),
+    initialData: [],
   });
 };

@@ -2,44 +2,42 @@ import React, { FC } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Form } from "react-aria-components";
 import { Switch } from "./react-aria/Switch";
+import { Permission } from "~/kysely/kysely.types";
 
 type PermissionsProps = {
-  onPermissionsChange: (permissions: string[]) => void;
+  initialPermissions: Permission[];
+  onPermissionsChange: (permissions: Permission[]) => void;
 };
 
 type PermissionsFormValues = {
-  readPosts: boolean;
-  writePosts: boolean;
-  readMessages: boolean;
-  writeMessages: boolean;
-  readProfileInfo: boolean;
-  writeProfileInfo: boolean;
+  [key in Permission]: boolean;
 };
 
-export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
+export const Permissions: FC<PermissionsProps> = ({
+  onPermissionsChange,
+  initialPermissions,
+}: PermissionsProps) => {
   const { control, watch } = useForm<PermissionsFormValues>({
-    defaultValues: {
-      readPosts: true,
-      writePosts: false,
-      readMessages: true,
-      writeMessages: false,
-      readProfileInfo: true,
-      writeProfileInfo: false,
-    },
+    defaultValues: initialPermissions.reduce((acc, permission) => {
+      return {
+        ...acc,
+        [permission]: true,
+      };
+    }, {} as PermissionsFormValues),
   });
 
-  const watchedValues = watch();
+  watch((values) => {
+    const derivedPermissions = Object.keys(values).filter(
+      (key) => values[key as keyof PermissionsFormValues]
+    ) as Permission[];
 
-  const derivedPermissions = Object.keys(watchedValues).filter(
-    (key) => watchedValues[key as keyof PermissionsFormValues]
-  );
-
-  props.onPermissionsChange(derivedPermissions);
+    onPermissionsChange(derivedPermissions);
+  });
 
   return (
     <Form className="flex flex-col gap-1">
       <Controller
-        name="readPosts"
+        name="read_posts"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
@@ -48,7 +46,7 @@ export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
         )}
       />
       <Controller
-        name="writePosts"
+        name="write_posts"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
@@ -57,7 +55,7 @@ export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
         )}
       />
       <Controller
-        name="readMessages"
+        name="read_messages"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
@@ -66,7 +64,7 @@ export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
         )}
       />
       <Controller
-        name="writeMessages"
+        name="write_messages"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
@@ -75,7 +73,7 @@ export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
         )}
       />
       <Controller
-        name="readProfileInfo"
+        name="read_profile"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
@@ -84,7 +82,7 @@ export const Permissions: FC<PermissionsProps> = (props: PermissionsProps) => {
         )}
       />
       <Controller
-        name="writeProfileInfo"
+        name="write_profile"
         control={control}
         render={({ field }) => (
           <Switch isSelected={field.value} onChange={field.onChange}>
